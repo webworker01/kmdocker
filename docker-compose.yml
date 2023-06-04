@@ -1,7 +1,7 @@
 services:
   komodod:
     build:
-      context: ./
+      context: https://github.com/webworker01/kmdocker.git
       dockerfile: Dockerfile
       args:
         PUID: 1000
