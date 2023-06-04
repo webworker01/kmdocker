@@ -35,7 +35,7 @@ RUN git clone ${REPO} komodo && \
         git checkout ${COMMIT}; \
     fi && \
     if [ -z "${BUILD_THREADS}" ]; then \
-        ./zcutil/build.sh -j$(expr $(nproc) -1); \
+        ./zcutil/build.sh -j$(nproc); \
     else \
         ./zcutil/build.sh -j${BUILD_THREADS}; \
     fi
