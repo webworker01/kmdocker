@@ -33,5 +33,5 @@ jobs:
           push: true
           tags: webworker01/kmdocker:pirated-latest
           build-args: |
-            REPO="https://github.com/PirateNetwork/pirate.git"
-            COMMIT="${{ vars.PIRATE_COMMIT }}"
+            REPO=git@github.com:PirateNetwork/pirate.git
+            COMMIT=${{ vars.PIRATE_COMMIT }}
