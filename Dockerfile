@@ -31,10 +31,10 @@ WORKDIR /home/${USERNAME}
 
 RUN git clone ${REPO} komodo && \
     cd komodo && \
-    if [[ ! -z "${COMMIT}" ]]; then \
+    if [ ! -z "${COMMIT}" ]; then \
         git checkout ${COMMIT}; \
     fi && \
-    if [[ -z "${BUILD_THREADS}" ]]; then \
+    if [ -z "${BUILD_THREADS}" ]; then \
         ./zcutil/build.sh -j$(expr $(nproc) -1); \
     else \
         ./zcutil/build.sh -j${BUILD_THREADS}; \
