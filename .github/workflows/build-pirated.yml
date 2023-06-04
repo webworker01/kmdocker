@@ -31,5 +31,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: webworker01/kmdocker:latest
-          build-args: COMMIT="${{ KOMODO_COMMIT }}"
+          tags: webworker01/kmdocker:pirated-latest
+          build-args: REPO="https://github.com/PirateNetwork/pirate.git" COMMIT="${{ PIRATE_COMMIT }}"
