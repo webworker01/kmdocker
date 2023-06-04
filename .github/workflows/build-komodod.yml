@@ -31,4 +31,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: webworker01/komodod:latest
+          tags: webworker01/kmdocker:latest
