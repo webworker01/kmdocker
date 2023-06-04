@@ -2,9 +2,13 @@ name: build-pirated
 
 on:
   workflow_dispatch:
-  # push:
-  #   branches:
-  #     - 'master'
+  push:
+    branches:
+      - 'master'
+
+env:
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
 jobs:
   docker:
@@ -14,13 +18,29 @@ jobs:
         name: Checkout
         uses: actions/checkout@v3
       -
-        name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-      -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
         with:
           buildkitd-flags: --debug
+      - name: Cache Docker layers
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ hashFiles('**/Dockerfile') }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+      -
+        name: Build Docker Image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          # push: true
+          tags: webworker01/kmdocker:pirated-latest
+          build-args: |
+            REPO=https://github.com/PirateNetwork/pirate.git
+            COMMIT=${{ vars.PIRATE_COMMIT }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
       -
         name: Login to Docker Hub
         uses: docker/login-action@v2
@@ -28,7 +48,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
-        name: Build and push
+        name: Push Docker Image
         uses: docker/build-push-action@v4
         with:
           context: .
@@ -37,3 +57,13 @@ jobs:
           build-args: |
             REPO=https://github.com/PirateNetwork/pirate.git
             COMMIT=${{ vars.PIRATE_COMMIT }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+      -
+        # Temp fix
+        # https://github.com/docker/build-push-action/issues/252
+        # https://github.com/moby/buildkit/issues/1896
+        name: Cleanup Cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
