@@ -32,4 +32,5 @@ jobs:
           context: .
           push: true
           tags: webworker01/kmdocker:latest
-          build-args: COMMIT="${{ vars.KOMODO_COMMIT }}"
+          build-args: |
+            COMMIT="${{ vars.KOMODO_COMMIT }}"
