@@ -1,4 +1,4 @@
-name: build-komodod
+name: build-pirated
 
 on:
   workflow_dispatch:
