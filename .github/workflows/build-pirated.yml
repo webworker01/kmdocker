@@ -39,6 +39,8 @@ jobs:
           build-args: |
             REPO=https://github.com/PirateNetwork/pirate.git
             COMMIT=${{ vars.PIRATE_COMMIT }}
+            DAEMON=pirated
+            CLI=pirate-cli
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
       -
@@ -57,6 +59,8 @@ jobs:
           build-args: |
             REPO=https://github.com/PirateNetwork/pirate.git
             COMMIT=${{ vars.PIRATE_COMMIT }}
+            DAEMON=pirated
+            CLI=pirate-cli
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
       -
