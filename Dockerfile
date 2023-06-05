@@ -11,8 +11,8 @@ ARG PARAMS_SCRIPT="fetch-params-alt.sh"
 # Build stage
 FROM ubuntu:22.04 as builder
 
-ARG REPO
-ARG COMMIT
+ARG BUILD_REPO
+ARG BUILD_COMMIT
 ARG BUILD_THREADS
 
 RUN apt-get -y update && \
