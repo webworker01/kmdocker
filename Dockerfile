@@ -1,17 +1,19 @@
-FROM ubuntu:22.04
-
-LABEL maintainer="https://github.com/webworker01"
-
 ARG USERNAME=komodo
 ARG PUID=1000
 ARG PGID=1000
 ARG REPO="https://github.com/komodoplatform/komodo"
 ARG COMMIT=""
 ARG BUILD_THREADS=""
+ARG DAEMON="komodod"
 ARG CLI="komodo-cli"
+ARG PARAMS_SCRIPT="fetch-params-alt.sh"
 
-ENV DAEMON="komodod"
-ENV PARAMS="-printtoconsole"
+# Build stage
+FROM ubuntu:22.04 as builder
+
+ARG REPO
+ARG COMMIT
+ARG BUILD_THREADS
 
 RUN apt-get -y update && \
     apt-get -y upgrade && \
@@ -20,14 +22,7 @@ RUN apt-get -y update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN groupadd -g $PGID ${USERNAME} && \
-    useradd --uid $PUID --gid $PGID -m ${USERNAME} && \
-    chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
-
-COPY --chown=${USERNAME}:${USERNAME} --chmod=700 entrypoint.sh /home/komodo/entrypoint.sh
-
-USER ${USERNAME}
-WORKDIR /home/${USERNAME}
+WORKDIR /komodo
 
 RUN git clone ${REPO} komodo && \
     cd komodo && \
@@ -39,5 +34,32 @@ RUN git clone ${REPO} komodo && \
     else \
         ./zcutil/build.sh -j${BUILD_THREADS}; \
     fi
+
+# Output
+FROM ubuntu:22.04
+LABEL maintainer="https://github.com/webworker01"
+
+ARG USERNAME
+ARG PUID
+ARG PGID
+ARG DAEMON
+ARG CLI
+ARG ZCASHPARAMS
+
+ENV DAEMON="komodod"
+ENV PARAMS="-printtoconsole"
+
+RUN groupadd -g ${PGID} ${USERNAME} && \
+    useradd --uid ${PUID} --gid ${PGID} -m ${USERNAME} && \
+    chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
+
+COPY --chown=${USERNAME}:${USERNAME} --chmod=700 entrypoint.sh /home/komodo/entrypoint.sh
+
+COPY --from=builder /komodo/src/${DAEMON} /usr/local/bin/${DAEMON}
+COPY --from=builder /komodo/src/${CLI} /usr/local/bin/${CLI}
+COPY --from=builder --chown=${USERNAME}:${USERNAME} --chmod=700 /komodo/zcutil/${PARAMS_SCRIPT} /home/komodo/fetch-params.sh
+
+USER ${USERNAME}
+WORKDIR /home/${USERNAME}
 
 ENTRYPOINT /home/komodo/entrypoint.sh

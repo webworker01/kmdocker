@@ -1,6 +1,5 @@
 #!/bin/bash
 
-cd ${HOME}/komodo
-./zcutil/fetch-params-alt.sh
+/home/komodo/fetch-params.sh
 
-${HOME}/komodo/src/${DAEMON} ${PARAMS}
+${DAEMON} ${PARAMS}
