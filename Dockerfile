@@ -1,6 +1,3 @@
-ARG USERNAME=komodo
-ARG PUID=1000
-ARG PGID=1000
 ARG BUILD_REPO="https://github.com/komodoplatform/komodo"
 ARG BUILD_COMMIT=""
 ARG BUILD_DAEMON="komodod"
@@ -39,16 +36,16 @@ RUN git clone ${BUILD_REPO} build_dir && \
 FROM ubuntu:22.04
 LABEL maintainer="https://github.com/webworker01"
 
-ARG USERNAME
-ARG PUID
-ARG PGID
 ARG BUILD_DAEMON
 ARG BUILD_CLI
 ARG PARAMS_SCRIPT
 
-ENV DAEMON="komodod"
+ENV USERNAME="komodo"
+ENV PUID=1000
+ENV PGID=1000
+ENV DAEMON=${BUILD_DAEMON}
 ENV PARAMS="-printtoconsole"
-ENV USER="komodo"
+ENV USER=${USERNAME}
 
 RUN groupadd -g ${PGID} ${USERNAME} && \
     useradd --uid ${PUID} --gid ${PGID} -m ${USERNAME} && \
