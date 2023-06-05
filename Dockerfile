@@ -47,6 +47,13 @@ ENV DAEMON=${BUILD_DAEMON}
 ENV PARAMS="-printtoconsole"
 ENV USER=${USERNAME}
 
+RUN apt-get -y update && \
+    apt-get -y upgrade && \
+    DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
+        libbrotli-dev && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 RUN groupadd -g ${PGID} ${USERNAME} && \
     useradd --uid ${PUID} --gid ${PGID} -m ${USERNAME} && \
     chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
