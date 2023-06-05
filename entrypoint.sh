@@ -1,5 +1,5 @@
 #!/bin/bash
 
-/home/komodo/fetch-params.sh
+/home/${USER}/fetch-params.sh
 
 ${DAEMON} ${PARAMS}

@@ -37,7 +37,7 @@ jobs:
           # push: true
           tags: webworker01/kmdocker:latest
           build-args: |
-            COMMIT=${{ vars.KOMODO_COMMIT }}
+            BUILD_COMMIT=${{ vars.KOMODO_COMMIT }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
       -
@@ -54,7 +54,7 @@ jobs:
           push: true
           tags: webworker01/kmdocker:latest
           build-args: |
-            COMMIT=${{ vars.KOMODO_COMMIT }}
+            BUILD_COMMIT=${{ vars.KOMODO_COMMIT }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
       -

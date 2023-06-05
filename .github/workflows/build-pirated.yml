@@ -37,10 +37,10 @@ jobs:
           # push: true
           tags: webworker01/kmdocker:pirated-latest
           build-args: |
-            REPO=https://github.com/PirateNetwork/pirate.git
-            COMMIT=${{ vars.PIRATE_COMMIT }}
-            DAEMON=pirated
-            CLI=pirate-cli
+            BUILD_REPO=https://github.com/PirateNetwork/pirate.git
+            BUILD_COMMIT=${{ vars.PIRATE_COMMIT }}
+            BUILD_DAEMON=pirated
+            BUILD_CLI=pirate-cli
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
       -
@@ -57,10 +57,10 @@ jobs:
           push: true
           tags: webworker01/kmdocker:pirated-latest
           build-args: |
-            REPO=https://github.com/PirateNetwork/pirate.git
-            COMMIT=${{ vars.PIRATE_COMMIT }}
-            DAEMON=pirated
-            CLI=pirate-cli
+            BUILD_REPO=https://github.com/PirateNetwork/pirate.git
+            BUILD_COMMIT=${{ vars.PIRATE_COMMIT }}
+            BUILD_DAEMON=pirated
+            BUILD_CLI=pirate-cli
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
       -
