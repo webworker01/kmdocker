@@ -55,9 +55,9 @@ RUN groupadd -g ${PGID} ${USERNAME} && \
 
 COPY --chown=${USERNAME}:${USERNAME} --chmod=700 entrypoint.sh /home/komodo/entrypoint.sh
 
-COPY --from=builder /komodo/src/${DAEMON} /usr/local/bin/${DAEMON}
-COPY --from=builder /komodo/src/${CLI} /usr/local/bin/${CLI}
-COPY --from=builder --chown=${USERNAME}:${USERNAME} --chmod=700 /komodo/zcutil/${PARAMS_SCRIPT} /home/komodo/fetch-params.sh
+COPY --from=builder /komodo/komodo/src/${DAEMON} /usr/local/bin/${DAEMON}
+COPY --from=builder /komodo/komodo/src/${CLI} /usr/local/bin/${CLI}
+COPY --from=builder --chown=${USERNAME}:${USERNAME} --chmod=700 /komodo/komodo/zcutil/${PARAMS_SCRIPT} /home/komodo/fetch-params.sh
 
 USER ${USERNAME}
 WORKDIR /home/${USERNAME}
