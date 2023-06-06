@@ -7,6 +7,7 @@ on:
       - 'master'
     paths:
       - Dockerfile
+      - entrypoint.sh
 
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -43,6 +44,7 @@ jobs:
             BUILD_COMMIT=${{ vars.PIRATE_COMMIT }}
             BUILD_DAEMON=pirated
             BUILD_CLI=pirate-cli
+            BUILD_COIN=PIRATE
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
       -
@@ -63,6 +65,7 @@ jobs:
             BUILD_COMMIT=${{ vars.PIRATE_COMMIT }}
             BUILD_DAEMON=pirated
             BUILD_CLI=pirate-cli
+            BUILD_COIN=PIRATE
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
       -

@@ -4,6 +4,7 @@ ARG BUILD_DAEMON="komodod"
 ARG BUILD_CLI="komodo-cli"
 ARG BUILD_THREADS=""
 ARG PARAMS_SCRIPT="fetch-params-alt.sh"
+ARG BUILD_COIN="KMD"
 
 # Build stage
 FROM ubuntu:22.04 as builder
@@ -45,6 +46,7 @@ ENV PUID=1000
 ENV PGID=1000
 ENV DAEMON=${BUILD_DAEMON}
 ENV PARAMS="-printtoconsole"
+ENV COIN=${BUILD_COIN}
 ENV USER=${USERNAME}
 
 RUN apt-get -y update && \
