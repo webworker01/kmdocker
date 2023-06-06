@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - 'master'
+    paths:
+      - Dockerfile
 
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
