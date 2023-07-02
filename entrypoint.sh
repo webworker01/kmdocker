@@ -1,35 +1,12 @@
 #!/bin/bash
+# setup and hand over control to rootless user
 
-/home/${USER}/fetch-params.sh
+groupadd -g ${PGID} ${USERNAME}
+useradd --uid ${PUID} --gid ${PGID} -s /bin/bash ${USERNAME}
 
-if [[ "${COIN^^}" == "KMD" ]]; then
-    path="${HOME}/.komodo"
-    file="komodo.conf"
-else
-    path="${HOME}/.komodo/${COIN^^}"
-    file="${COIN^^}.conf"
-fi
+cp /usr/local/bin/entrypoint-user.sh /home/${USERNAME}/entrypoint-user.sh
+cp /usr/local/bin/fetch-params.sh /home/${USERNAME}/fetch-params.sh
 
-# Create conf file if not exist
-if [[ ! -f ${path}/${file} ]]; then
-    randusername=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
-    randpassword=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
 
-    mkdir -p ${path}
-
-    cat <<EOF > ${path}/${file}
-rpcuser=user$randusername
-rpcpassword=pass$randpassword
-txindex=1
-server=1
-daemon=1
-rpcworkqueue=256
-rpcbind=127.0.0.1
-rpcallowip=127.0.0.1
-EOF
-
-    chmod 600 ${path}/${file}
-fi
-
-# Start the daemon
-${DAEMON} ${PARAMS}
+exec gosu ${USERNAME} /home/${USERNAME}/entrypoint-user.sh

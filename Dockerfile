@@ -50,26 +50,19 @@ ENV PGID=1000
 ENV DAEMON=${BUILD_DAEMON}
 ENV PARAMS="-printtoconsole"
 ENV COIN=${BUILD_COIN}
-ENV USER=${USERNAME}
 
 RUN apt-get -y update && \
     apt-get -y upgrade && \
     DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
-        ca-certificates curl libbrotli-dev libgomp1 && \
+        ca-certificates curl gosu libbrotli-dev libgomp1 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN groupadd -g ${PGID} ${USERNAME} && \
-    useradd --uid ${PUID} --gid ${PGID} -m ${USERNAME} && \
-    chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
-
-COPY --chown=${USERNAME}:${USERNAME} --chmod=700 entrypoint.sh /home/komodo/entrypoint.sh
-
 COPY --from=builder /build_dir/src/${BUILD_DAEMON} /usr/local/bin/${BUILD_DAEMON}
 COPY --from=builder /build_dir/src/${BUILD_CLI} /usr/local/bin/${BUILD_CLI}
-COPY --from=builder --chown=${USERNAME}:${USERNAME} --chmod=700 /build_dir/zcutil/${PARAMS_SCRIPT} /home/${USERNAME}/fetch-params.sh
+COPY --from=builder /build_dir/zcutil/${PARAMS_SCRIPT} /usr/local/bin/fetch-params.sh
 
-USER ${USERNAME}
-WORKDIR /home/${USERNAME}
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY entrypoint-user.sh /usr/local/bin/entrypoint-user.sh
 
-ENTRYPOINT /home/${USERNAME}/entrypoint.sh
+ENTRYPOINT /usr/local/bin/entrypoint.sh
