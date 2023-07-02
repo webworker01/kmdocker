@@ -16,7 +16,10 @@ ARG BUILD_THREADS
 RUN apt-get -y update && \
     apt-get -y upgrade && \
     DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
-        build-essential pkg-config libc6-dev m4 g++-multilib autoconf libtool libncurses-dev unzip git python3 zlib1g-dev wget bsdmainutils automake libboost-all-dev libssl-dev libprotobuf-dev protobuf-compiler libqrencode-dev libdb++-dev ntp ntpdate nano software-properties-common curl libevent-dev libcurl4-gnutls-dev cmake clang libsodium-dev liblz4-dev libbrotli-dev && \
+        build-essential pkg-config libc6-dev m4 g++-multilib autoconf libtool libncurses-dev unzip git python3 \
+        zlib1g-dev wget bsdmainutils automake libboost-all-dev libssl-dev libprotobuf-dev protobuf-compiler \
+        libqrencode-dev libdb++-dev ntp ntpdate nano software-properties-common curl libevent-dev libcurl4-gnutls-dev \
+        cmake clang libsodium-dev liblz4-dev libbrotli-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
