@@ -36,4 +36,8 @@ services:
       - /home/USERNAME/.zcash-params:/home/komodo/.zcash-params
 ```
 
-This will create a non-root container with the coin daemon running on UID/GID 1000 by default.  If your UID/GID are different, set the PUID and PGID args to the user on your host system as env vars if you wish for the blockchain files to be owned by your user.
+This will create a non-root container with the coin daemon running on UID/GID 1000 by default.
+
+If your UID/GID are different, set the PUID and PGID args to the user on your host system as env vars if you wish for the blockchain files to be owned by your user.
+
+If the local directories mapped as volumes do not exist already they might be owned by root and should be safe to chown to your user as long as it matches your PUID / PGID you set earlier
