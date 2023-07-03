@@ -4,7 +4,7 @@
 
 echo "Current user: $(whoami) $(id)"
 
-cd /home/${USERNAME}
+cd ${HOME}
 
 ./fetch-params.sh
 
