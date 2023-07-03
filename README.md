@@ -25,7 +25,6 @@ services:
     container_name: pirated
     image: webworker01/kmdocker:pirated-latest
     environment:
-      DAEMON: pirated
       PARAMS: -printtoconsole
       USER: komodo
     ports:
@@ -49,7 +48,6 @@ services:
     container_name: komodod
     image: webworker01/kmdocker:latest
     environment:
-      DAEMON: komodod
       PARAMS: -printtoconsole
       USERNAME: root
       PUID: 0
