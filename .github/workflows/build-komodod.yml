@@ -8,6 +8,7 @@ on:
     paths:
       - Dockerfile
       - entrypoint.sh
+      - entrypoint-user.sh
 
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}

@@ -30,7 +30,7 @@ services:
       USER: komodo
     ports:
       - '45452:45452'
-      - '45453:45453'
+      - '127.0.0.1:45453:45453'
     volumes:
       - /home/USERNAME/.komodo/PIRATE:/home/komodo/.komodo/PIRATE
       - /home/USERNAME/.zcash-params:/home/komodo/.zcash-params
