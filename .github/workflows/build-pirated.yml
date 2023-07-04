@@ -27,6 +27,12 @@ jobs:
         with:
           buildkitd-flags: --debug
       -
+        name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
         name: Cache Docker layers
         uses: actions/cache@v3
         with:
@@ -35,28 +41,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-pirate
       -
-        name: Build Docker Image
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          # push: true
-          tags: webworker01/kmdocker:pirated-latest
-          build-args: |
-            BUILD_REPO=https://github.com/PirateNetwork/pirate.git
-            BUILD_COMMIT=${{ vars.PIRATE_COMMIT }}
-            BUILD_DAEMON=pirated
-            BUILD_CLI=pirate-cli
-            BUILD_COIN=PIRATE
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
-      -
-        name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      -
-        name: Push Docker Image
+        name: Build and Push Docker Image
         uses: docker/build-push-action@v4
         with:
           context: .
