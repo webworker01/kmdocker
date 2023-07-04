@@ -25,8 +25,8 @@ services:
     container_name: pirated
     image: webworker01/kmdocker:pirated-latest
     environment:
-      PARAMS: -printtoconsole
-      USER: komodo
+      PUID: 1001
+      PGID: 1001
     ports:
       - '45452:45452'
       - '127.0.0.1:45453:45453'
@@ -48,7 +48,6 @@ services:
     container_name: komodod
     image: webworker01/kmdocker:latest
     environment:
-      PARAMS: -printtoconsole
       USERNAME: root
       PUID: 0
       PGID: 0

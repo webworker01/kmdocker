@@ -48,7 +48,7 @@ ENV USERNAME="komodo"
 ENV PUID=1000
 ENV PGID=1000
 ENV DAEMON=${BUILD_DAEMON}
-ENV PARAMS="-printtoconsole"
+ENV PARAMS=""
 ENV COIN=${BUILD_COIN}
 
 RUN apt-get -y update && \
