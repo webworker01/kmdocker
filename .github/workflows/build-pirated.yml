@@ -47,8 +47,8 @@ jobs:
             BUILD_DAEMON=pirated
             BUILD_CLI=pirate-cli
             BUILD_COIN=PIRATE
-          cache-from: type=local,src=/tmp/.buildx-cache-pirate
-          cache-to: type=local,dest=/tmp/.buildx-cache-pirate-new,mode=max
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
       -
         name: Login to Docker Hub
         uses: docker/login-action@v2
@@ -68,13 +68,13 @@ jobs:
             BUILD_DAEMON=pirated
             BUILD_CLI=pirate-cli
             BUILD_COIN=PIRATE
-          cache-from: type=local,src=/tmp/.buildx-cache-pirate
-          cache-to: type=local,dest=/tmp/.buildx-cache-pirate-new,mode=max
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
       -
         # Temp fix
         # https://github.com/docker/build-push-action/issues/252
         # https://github.com/moby/buildkit/issues/1896
         name: Cleanup Cache
         run: |
-          rm -rf /tmp/.buildx-cache-pirate
-          mv /tmp/.buildx-cache-pirate-new /tmp/.buildx-cache-pirate
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
