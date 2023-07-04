@@ -15,7 +15,7 @@ env:
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
 jobs:
-  docker:
+  docker-komodod:
     runs-on: ubuntu-latest
     steps:
       -
